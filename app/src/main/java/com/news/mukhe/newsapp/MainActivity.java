@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     static ListView listView;
     static Context context;
-    String id;
+    String id,name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 String _value=e.getValue();
                 if (_value.equals(value)) {
                     id = key;
+                    name=_value;
                     break;
                 }
             }
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(MainActivity.this,NewsActivity.class);
         Bundle bundle=new Bundle();
         bundle.putString(Constant.URL_TAG,link);
+        bundle.putString(Constant.NAME_TAG,name);
         intent.putExtras(bundle);
         startActivity(intent);
     }

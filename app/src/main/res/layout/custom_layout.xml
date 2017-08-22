@@ -9,16 +9,22 @@
         android:id="@+id/title"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textAlignment="center"
-        android:fontFamily="sans-serif-smallcaps"/>
+        android:fontFamily="sans-serif-smallcaps"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/desc"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/readMore"/>
+        android:id="@+id/readMore"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 </LinearLayout>

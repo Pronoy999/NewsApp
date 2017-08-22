@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class NewsActivity extends AppCompatActivity {
-    String link;
+    String link,name;
     ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class NewsActivity extends AppCompatActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         link=bundle.getString(Constant.URL_TAG);
+        name=bundle.getString(Constant.NAME_TAG);
+        this.setTitle(name);
         listView=(ListView) findViewById(R.id.articles);
         HttpHandler httpHandler=new HttpHandler();
         httpHandler.execute();

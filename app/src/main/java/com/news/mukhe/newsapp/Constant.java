@@ -18,5 +18,6 @@ public class Constant {
     protected static String SOURCES="";
     protected static String NEWS="";
     protected static final String INTENT_TAG="data";
+    protected static final String NAME_TAG="name";
     protected static final String URL_TAG="tag";
 }
