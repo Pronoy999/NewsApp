@@ -18,6 +18,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     static ListView listView;
     static Context context;
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             Message.toastMessage(context,"Oops Your internet connection is wonky!","long");
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text=listView.getItemAtPosition(position).toString();
+                String text = listView.getItemAtPosition(position).toString();
+                getKey(text);
             }
         });
     }
@@ -48,6 +51,23 @@ public class MainActivity extends AppCompatActivity {
             }
             ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,arrayList);
             listView.setAdapter(arrayAdapter);
+        }
+        catch (JSONException e){
+            Message.logMessage("ERROR: ",e.toString());
+        }
+    }
+    protected void getKey(String value){
+        try{
+            JsonParser jsonParser=new JsonParser(Constant.SOURCE);
+            HashMap<String, String> sources=jsonParser.getSourceName();
+            for (HashMap.Entry<String,String> e: sources.entrySet()){
+                String key=e.getKey();
+                String _value=e.getValue();
+                if (_value.equals(value)) {
+                    id = key;
+                    break;
+                }
+            }
         }
         catch (JSONException e){
             Message.logMessage("ERROR: ",e.toString());
