@@ -20,7 +20,7 @@ public class HttpConnector extends AsyncTask<URL,Void,String> {
         HttpURLConnection httpURLConnection=null;
         InputStream inputStream;
         try{
-            URL url=new URL(Constant.SOURCE_URL);
+            URL url=params[0];
             httpURLConnection=(HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setConnectTimeout(10000);

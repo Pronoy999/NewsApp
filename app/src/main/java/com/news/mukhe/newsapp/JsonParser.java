@@ -29,4 +29,14 @@ public class JsonParser {
         }
         return sourcesName;
     }
+    protected JSONArray getArticles(){
+        JSONArray array=new JSONArray();
+        try {
+            array = jsonData.getJSONArray(Constant.ARTICLES);
+        }
+        catch (JSONException e){
+            Message.logMessage("ERROR: ",e.toString());
+        }
+        return array;
+    }
 }

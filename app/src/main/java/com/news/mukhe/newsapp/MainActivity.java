@@ -1,6 +1,7 @@
 package com.news.mukhe.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.ListView;
 
 import org.json.JSONException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +31,14 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo info=((ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         if(info.isConnected()) {
             HttpConnector httpConnector = new HttpConnector();
-            httpConnector.execute();
+            try {
+                URL link = new URL(Constant.SOURCE_URL);
+                URL url[] = {link};
+                httpConnector.execute(url);
+            }
+            catch (MalformedURLException e){
+                Message.logMessage("ERROR: ",e.toString());
+            }
         }
         else
             Message.toastMessage(context,"Oops Your internet connection is wonky!","long");
@@ -58,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void getKey(String value){
         try{
-            JsonParser jsonParser=new JsonParser(Constant.SOURCE);
+            JsonParser jsonParser=new JsonParser(Constant.SOURCES);
             HashMap<String, String> sources=jsonParser.getSourceName();
             for (HashMap.Entry<String,String> e: sources.entrySet()){
                 String key=e.getKey();
@@ -70,7 +80,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         catch (JSONException e){
-            Message.logMessage("ERROR: ",e.toString());
+            Message.logMessage("ERROR: Main ",e.toString());
         }
+        changeActivity();
+    }
+    private void changeActivity(){
+        String linkParts[]=Constant.ARTICLES_URL.split(" ");
+        String _part1=linkParts[0];
+        _part1=_part1.trim();
+        _part1+=id;
+        String link=_part1+linkParts[1];
+        Intent intent=new Intent(MainActivity.this,NewsActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString(Constant.URL_TAG,link);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

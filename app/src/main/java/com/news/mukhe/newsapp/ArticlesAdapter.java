@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class ArticlesAdapter extends ArrayAdapter<Articles> {
+    TextView _title,desc,readMore;
     public ArticlesAdapter(Activity context, ArrayList<Articles> articles){
         super(context,0,articles);
     }
@@ -29,32 +30,38 @@ public class ArticlesAdapter extends ArrayAdapter<Articles> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View listitem=convertView;
-        if(listitem!=null){
-            listitem= LayoutInflater.from(getContext()).inflate(R.layout.custom_layout,parent,false);
+        View listItem=convertView;
+        if(listItem==null){
+            listItem= LayoutInflater.from(getContext()).inflate(R.layout.custom_layout,parent,false);
         }
-        TextView title=(TextView) listitem.findViewById(R.id.title);
-        TextView desc=(TextView) listitem.findViewById(R.id.desc);
-        final TextView readMore=(TextView) listitem.findViewById(R.id.readMore);
         Articles articles=getItem(position);
-        title.setText(articles.getTitle());
+        _title=(TextView) listItem.findViewById(R.id.title);
+        desc=(TextView) listItem.findViewById(R.id.desc);
+        readMore=(TextView) listItem.findViewById(R.id.readMore);
+
+        _title.setText(articles.getTitle());
         desc.setText(articles.getDescription());
-        String temp="Read More:"+articles.getUrl();
+        String temp="Read More-"+articles.getUrl();
         readMore.setText(temp);
         readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    String text=readMore.getText().toString();
-                    String link=text.split(":")[1];
-                    Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                    getContext().startActivity(intent);
+                    startBrowser();
                 }
                 catch (ActivityNotFoundException e){
                     Message.toastMessage(getContext(),"No Application is installed to handle this event.","");
                 }
             }
         });
-        return listitem;
+        return listItem;
+    }
+    public void startBrowser(){
+        String text=readMore.getText().toString();
+        String link=text.split("-")[1];
+        Message.toastMessage(getContext(),link,"");
+        Intent intent=new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(link));
+        getContext().startActivity(intent);
     }
 }
